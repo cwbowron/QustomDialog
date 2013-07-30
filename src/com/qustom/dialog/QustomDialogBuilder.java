@@ -14,16 +14,16 @@ import com.qustom.dialog.R;
 public class QustomDialogBuilder extends AlertDialog.Builder{
 
 	/** The custom_body layout */
-	private View mDialogView;
+	public View mDialogView;
 	
 	/** optional dialog title layout */
-	private TextView mTitle;
+	public TextView mTitle;
 	/** optional alert dialog image */
-	private ImageView mIcon;
+	public ImageView mIcon;
 	/** optional message displayed below title if title exists*/
-	private TextView mMessage;
+	public TextView mMessage;
 	/** The colored holo divider. You can set its color with the setDividerColor method */
-	private View mDivider;
+	public View mDivider;
 	
     public QustomDialogBuilder(Context context) {
         super(context);
@@ -47,13 +47,23 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
     	mDivider.setBackgroundColor(Color.parseColor(colorString));
     	return this;
     }
- 
+
+    public QustomDialogBuilder setDividerColor( int color ) {
+        mDivider.setBackgroundColor( color );
+        return this;
+    }
+
     @Override
     public QustomDialogBuilder setTitle(CharSequence text) {
         mTitle.setText(text);
         return this;
     }
 
+    public QustomDialogBuilder setTitleColor( int color ) {
+        mTitle.setTextColor( color );
+        return this;
+    }
+        
     public QustomDialogBuilder setTitleColor(String colorString) {
     	mTitle.setTextColor(Color.parseColor(colorString));
     	return this;
@@ -92,9 +102,13 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
      * @param context
      */
     public QustomDialogBuilder setCustomView(int resId, Context context) {
-    	View customView = View.inflate(context, resId, null);
-    	((FrameLayout)mDialogView.findViewById(R.id.customPanel)).addView(customView);
-    	return this;
+    	return setCustomView( View.inflate(context, resId, null) );
+    }
+
+    public QustomDialogBuilder setCustomView( View customView ) {
+        mDialogView.findViewById( R.id.contentPanel ).setVisibility( View.GONE );
+        ((FrameLayout)mDialogView.findViewById(R.id.customPanel)).addView(customView);
+        return this;
     }
     
     @Override
